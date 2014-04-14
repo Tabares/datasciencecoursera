@@ -35,3 +35,6 @@ git merge origin/master
 #push the changes back to github
 $git push origin master
 
+---------------
+##Help
+https://help.github.com/
