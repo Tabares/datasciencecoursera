@@ -38,3 +38,10 @@ $git push origin master
 ---------------
 ##Help
 https://help.github.com/
+
+-------------------
+## Data Science Specialization (secondary header )
+
+* Uses R (unordered list)
+* Nine courses 
+* Goes from raw data to data products
