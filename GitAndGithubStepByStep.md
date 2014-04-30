@@ -12,7 +12,7 @@ cd ..
 touch GitAndGithubStepByStep.md
 
 ##edit file
-[via notepad++ or editor]
+[notepad++, editor, etc]
 
 #add file
 git add GitAndGithubStepByStep.md
