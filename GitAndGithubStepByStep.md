@@ -1,3 +1,4 @@
+#Update a file
 ##open git
 
 ##run 
@@ -39,6 +40,35 @@ $git push origin master
 ##Help
 https://help.github.com/
 
+-----------------------------
+#Fork a repo
+use Fork button
+clone repo ( to your current directory)
+	git clone https://github.com/your-user-name-goes-here/repor-name-here.git
+---------------------
+#git 
+##dir commands
+Move to the sybase folder
+$ cd /usr/local/sybase
+$ pwd
+/usr/local/sybase
+
+Change to another folder
+$ cd /var/log
+$ pwd
+/var/log
+
+Quickly get back
+$ cd - 
+$ pwd
+/usr/local/sybase
+
+move up one folder
+$ cd ..
+$ pwd
+/usr/local/
+
+$ cd (Back to your home folder)
 -------------------
 ## Data Science Specialization (secondary header )
 
