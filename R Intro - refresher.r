@@ -9,7 +9,7 @@ getwd() #r current directory
 setwd("/Adl Box/My Box Files/mooc CompDataA.R/Week 1")  #or cmd+d
 
   
---------------------------------------
+#--------------------------------------
     
 ##R 1.2 - Calculations and Variables
 #Get acquainted with performing basic computations in R, creating R objects (sometimes called "variables"), and seeing and running earlier commands that were run in the console.
@@ -23,7 +23,7 @@ sqrt(x)
 my.height <- 5*12 +8
 my.height
 
---------------------------------------
+#--------------------------------------
     
 ##R 1.3 - Create and Work With Vectors
 ##Learn how to create a vector in R using the c() function and the colon-notation (e.g. 1:5), find the length of a vector using the length() function, and subset vectors with bracket-notation and the head() and tail() functions.
@@ -40,7 +40,7 @@ tail(v)
 v
 tail(v,3)
 
---------------------------------------
+#--------------------------------------
   
 ##R 1.4 - Character and Boolean Vectors
 ##So far we've seen objects that use numbers, but R is also built to handle more types of objects. Here we explore vectors that contain strings or Boolean values (TRUE / FALSE).
@@ -57,7 +57,7 @@ nchar(v)
 under.10 <- nchar(v) < 10
 v[under.10]
 
---------------------------------------
+#--------------------------------------
 
 ##R 1.5 - Vector Arithmetic
 ##This video demystifies the different ways R performs vector arithmetic (e.g. addition and multiplication), covering topics including element-wise arithmetic, vector recycling, and how some functions are automatically applied across the elements in a vector. The seq() function is also introduced.
@@ -83,7 +83,15 @@ p
 v^p
 sqrt(v)
 
-------------------------------------------
+#---------------
+# vectorized operations
+x <- matrix(1:4,2,2)
+y <- matrix(rep(10,4),2,2)
+x*y #element wise multiplication
+x/y
+x %*% y #true matrix multiplication
+
+#------------------------------------------
 
 ##R 1.6 - Building and Subsetting Matrices
 ##Learn how to create a matrix with dimensions of your choosing, how recycle a vector when creating a matrix, and how to query specific characteristics of the vector using functions such as dim(), head(), and tail(). Details and potential pitfalls for subsetting a matrix using the bracket-notation are also covered.
@@ -167,7 +175,7 @@ good<- complete.cases(airquality)
 airquality[good,][1:6,] #head(airquality[good,])
 
 
---------------------------------------------------------
+#--------------------------------------------------------
 
 ##R 1.7 - Section 1 Review and Help Files
 ##A quick review of the topics covered in the Section 1 videos: vectors, matrices, subsetting, and a few standard functions. Also learn how to access help files in R.
@@ -188,7 +196,7 @@ m[1:2,3:5]
 
 ?seq #help
 
---------------------------------------------------------
+#--------------------------------------------------------
   
 ##R 2.1 Loading Data and Working With Data Frames 
 ##Get a refresher on navigating directories on your computer in R, and learn to load a CSV (comma-separated values) data set in the form of a "data frame" using the read.csv() function, which is a special type of data matrix. This video also introduces factor variables and explores the data in a data frame using the dim(), head(), length(), names(), and subset() functions.
@@ -218,7 +226,7 @@ subset( data, Temp >90, select=c("Month","Day"))
 data$Verified
 as.character(data$Verified) #convert the factor to a string
 
------------------------------------------------
+#-----------------------------------------------
   
 ##R 2.2 - Loading Data, Object Summaries, and Dates
 ##Learn how to load data in the form of a tab-delimited text file using the read.delim(), how to get a high-level overview of an R object using the str() and summary() functions, and get a crash-course into working with dates in R with an example highlighting why this skill is so useful.
@@ -240,7 +248,7 @@ stocks$Date <- s.date
 #FB <- subset(stocks, ticker == "FB")
 plot(stocks$Date, stocks$Open, type="l")
 
--------------------------------------------
+#-------------
 
 stocks <- read.delim("stocks500T.txt")
 head(stocks,3)
@@ -258,8 +266,17 @@ GOOG <- subset(stocks, ticker == "GOOG")
 head(GOOG,3)
 plot( GOOG$date, GOOG$open, type="l")
 GOOG
+#-------------
+x <- as.Date("2012-01-01")
 
----------------------------------------------
+ds <- c("Enero  10, 2012 10:40","Diciembre 9, 2011 10:10")
+x <- strptime(ds,"%B %d, %Y %H:%M") 
+x
+Sys.time()
+sessionInfo()
+?strptime
+
+#---------------------------------------------
 
 ##R 2.3 - if() Statements, Logical Operators, and the which() Function
 ##if-else statements are a key component to any programming language. This video introduces how to effectively use these statements in R and also clarifies some nuances of logical operators in R. Two related functions are also introduced: ifelse() as a shortcut that can be used to create faster and more readable code, and the which() function that retrieves the positions in a Boolean vector that are TRUE.
@@ -320,7 +337,7 @@ y <- if(x>3){
   0
 }
 
---------------------------------------
+#--------------------------------------
 
 ##R 2.4 - for() Loops and Handling Missing Observations
 ##This video discusses for() loops, which are a structure that can be used to execute a set of code repeatedly. Also covered in this video are the min(), max(), and append() functions, as well as how to identify and omit missing values.
@@ -431,6 +448,43 @@ z <- TRUE
 ls() #look at the objects existing in your current workspace
 rm(c) #remove specific object
 rm( list=ls()) #remove all objects
+
+#Exploring a function closure
+make.power <- function(n){
+        pow <- function(x){
+                x^n
+        }
+        return(pow)
+}
+
+cube <- make.power(3)
+square <- make.power(2)
+
+cube(3)
+square(3)
+
+ls(environment(cube))
+get("n", environment(cube))
+
+ls(environment(square))
+get("n", environment(square))
+
+#------------------
+lexical vs Dynamic Scoping
+y <- 10
+f <- function(x){
+        y <- 2
+        y ^ 2 + g(x) # 4 + 30
+}
+
+g <- function(x){
+        x*y  #3*10 = 30
+}
+
+f(3)   # what is the value of
+34     #bingo!
+
+#------------------
 
 x
 as.numeric(x)
