@@ -517,6 +517,13 @@ dr$mean
 ##the apply() function can be used to calculate summaries
 ## (or apply a more complex function) across either the rows or columns of the data object. Or if summaries for each group (level) of one or more variables are desired, use the tapply() or by() function.  
 
+apply : apply a function over the margins of an array
+lapply: loop over a list and evaluate a funcition on each element ( return a list)
+sapply: same as lapply but try to simplify result ( return  vector )
+tapply: Apply a function o ver subsets of a vector
+mapply multivariate version of lapply
+
+        
 rm(list=ls())
 rev <- read.csv("revenue.csv", header=FALSE)
 #row  - day mar1 to mar 31
@@ -546,8 +553,24 @@ apply  (rev,1, sum, na.rm=TRUE)
 colSums(rev)
 rowSums(rev)
 
+#another example
+x <- matrix(rnorm(200),20,10)
+apply(x,2,mean) #mean for the columns
+apply(x,1,sum) #sum the rows
+x <- matrix(1:12,3,4)
+apply(x,2,mean) #mean for the columns
+apply(x,1,sum) #sum the rows
 
- # second function tapply
+apply(x,1, quantile, probs = c(0.25,0.75))
+
+
+#col/row sums and means
+rowSums = apply(x,1,sum)
+?rowMeans = apply(x,1,means)
+colSums = apply(x,2,sum)
+colMeans = apply(x,2,sum)
+
+# TAPPLY
 mk <- read.delim("mariokart.txt")
 head(mk,4)
  #focus on : wheels, cond, totalPr
@@ -578,14 +601,21 @@ x<- by(mk$totalPr,mk[ ,c("cond","wheels")], length)
 x[5]
 c(x)
 
-#-------------
-lapply: loop over a list and evaluate a funcition on each element ( return a list)
-sapply: same as lapply but try to simplify result ( return  vector )
-apply : apply a function over the margins of an array
-tapply: Apply a function o ver subsets of a vector
-mapply multivariate version of lapply
 
+#-----
+#  TAPPLY
+x <- c(rnorm(10), runif(10), rnorm(10,1))
+f <- gl(3,10)
+f
+> tapply(x,f,mean) 
+1          2          3 
+-0.5136673  0.5318291  0.6579808 
+tapply(x,f,mean, simplify=FALSE)  #get a list
+$`1`
 
+tapply(x,f, range)
+#------------
+#  LAPPLY
 lapply #lways return a list
 x <- list(a = 1:5, b =rnorm(10))
 lapply(x,mean)
