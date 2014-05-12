@@ -84,6 +84,7 @@ v^p
 sqrt(v)
 
 #---------------
+
 # vectorized operations
 x <- matrix(1:4,2,2)
 y <- matrix(rep(10,4),2,2)
@@ -512,7 +513,9 @@ dr$mean
 ------------------------------------------------
   
 ##R 3.2 - The apply() Family of Functions
-##When data are organized in a matrix or data frame, the apply() function can be used to calculate summaries (or apply a more complex function) across either the rows or columns of the data object. Or if summaries for each group (level) of one or more variables are desired, use the tapply() or by() function.  
+##When data are organized in a matrix or data frame, 
+##the apply() function can be used to calculate summaries
+## (or apply a more complex function) across either the rows or columns of the data object. Or if summaries for each group (level) of one or more variables are desired, use the tapply() or by() function.  
 
 rm(list=ls())
 rev <- read.csv("revenue.csv", header=FALSE)
@@ -574,6 +577,62 @@ tapply(mk$totalPr,mk[ ,c("cond","wheels")], length) #one col has few observation
 x<- by(mk$totalPr,mk[ ,c("cond","wheels")], length)
 x[5]
 c(x)
+
+#-------------
+lapply: loop over a list and evaluate a funcition on each element ( return a list)
+sapply: same as lapply but try to simplify result ( return  vector )
+apply : apply a function over the margins of an array
+tapply: Apply a function o ver subsets of a vector
+mapply multivariate version of lapply
+
+
+lapply #lways return a list
+x <- list(a = 1:5, b =rnorm(10))
+lapply(x,mean)
+$a
+[1] 3
+
+$b
+[1] -0.0474927
+
+#---
+        
+x <- 1:4
+lapply(x, runif)  #random uniform distributions
+lapply(x, runnif, min=o, max=10)
+
+#---
+x <- list( a = matrix(1:4,2,2), b = matrix(1:6,3,2))
+x
+extract the first column of these matrix
+lapply(x, function (elt) elt[,1])  #you could call that function
+
+#---
+sapply
+x <- list( a= 1:4, b= rnorm(10), c= rnorm(20,1), d=rnorm(100,5) )
+x
+lapply(x,mean)
+$a
+[1] 2.5
+
+$b
+[1] -0.6066884
+
+$c
+[1] 0.8449415
+
+$d
+[1] 4.958213
+
+sapply(x, mean)
+a          b          c          d 
+2.5000000 -0.6066884  0.8449415  4.9582134
+
+> mean(x)
+[1] NA
+Warning message:
+        In mean.default(x) : argument is not numeric or logical: returning NA
+
 ------------------------------------------------
 
 ##R 3.3 - Access or Create Columns in Data Frames, or Simplify a Data Frame using aggregate
@@ -769,69 +828,6 @@ x <- c(1:20)
 x[c(2, 10)] #gives us ONLY the 2nd and 10th  elements of x, 
 x[c(-2, -10)] #gives us all elements of x EXCEPT for the 2nd and 10 elements.
 x[-c(2,10)]
-------------------------------------------------
 
-#Excercises 
-
-##Data Handling
-getwd()
-list.files()
-setwd("/Adl Box/My Box Files/mooc CompDataA.R/Week 1")
-
-data <- read.csv("01 hw1_data.csv")
-
-#What are the column names of the dataset?
-names(data)
-#Extract the first 2 rows of the data frame and print them to the console. 
-#What does the output look like?
-head(data,2)
-
-#How many observations (i.e. rows) are in this data frame?
-length(data[,1])
-nrow(data)
-
-#Extract the last 2 rows of the data frame and print them to the console. 
-#What does the output look like?
-tail(data,2)
-
-#What is the value of Ozone in the 47th row?
-data$Ozone[47]
-
-#How many missing values are in the Ozone column 
-#of this data frame?
-missing.val<- is.na(data$Ozone)
-length(data$Ozone[missing.val])
-
-or
-
-dz<-data$Ozone
-bad <- is.na(dz)
-length(dz[bad])
-
-# What is the mean of the Ozone column in this dataset? 
-# Exclude missing values (coded as NA) from this calculation.
-mean(data$Ozone, na.rm=TRUE ) #this is easier
-
-dz<-data$Ozone
-bad <- is.na(dz)
-clean.dz <-dz[!bad]
-mean(clean.dz)
-
-# Extract the subset of rows of the data frame 
-# where Ozone values are above 31 and Temp valuesare above 90. 
-#What is the mean of Solar.R in this subset?
-
-doz  <- subset(data,data$Ozone>31) #danull<- subset(data,data[, 1]>31)
-doz <- subset(doz,doz$Temp > 90) #dtmp<- subset(danull,danull[, 4]>90)
-mean(doz$Solar.R)
-summary(doz$Solar.R)
-
-#What is the mean of "Temp" when "Month" is equal to 6?
-dm  <- subset(data,data$Month == 6)
-mean(dm$Temp)
-
-#What was the maximum ozone value in the month of May (i.e. Month = 5)?
-dm  <- subset(data,data$Month == 5)
-summary(dm$Ozone)
-
+----------------------------------------------
 
